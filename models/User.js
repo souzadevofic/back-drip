@@ -18,7 +18,7 @@ const User = configDB.define('User', {
         unique: true,       // Não pode repetir o e-mail
     },
     password: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(100),
         allowNull: false,
     }
 }, {
