@@ -1,19 +1,19 @@
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import Categories from '../models/Categories.js';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 async function insertData() {
     try {
-        const saltRounds = 10; // Defina o número de rounds para o salt (quanto maior, mais seguro, mas mais lento)
-        const hashedPassword = await bcrypt.hash('1234', saltRounds);
+        // const saltRounds = 10; // Defina o número de rounds para o salt (quanto maior, mais seguro, mas mais lento)
+        // const hashedPassword = await bcrypt.hash('1234', saltRounds);
 
         // INSERT INTO users ...
         const user = await User.create({
             username: 'Alisson',
             surname: 'Souza',
             email: 'alissonprogramador@gmail.com',
-            password: hashedPassword // Senha com hash gerado pelo bcrypt
+            password: '12345' // Senha com hash gerado pelo bcrypt
         });
         console.log(`Novo usuário criado: ${user.toJSON()}`);
 

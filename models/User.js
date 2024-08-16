@@ -1,6 +1,7 @@
 
 import { DataTypes } from "sequelize";
 import configDB from "../config/db.js";
+import bcrypt from 'bcrypt';
 
 const User = configDB.define('User', {
     // Campos
@@ -20,6 +21,12 @@ const User = configDB.define('User', {
     password: {
         type: DataTypes.STRING(100),
         allowNull: false,
+        set(value) {
+            const saltRounds = 10;
+            const hash = bcrypt.hashSync(value, saltRounds);
+            this.setDataValue('password', hash)
+
+        }
     }
 }, {
     tableName: 'users', // Nome da tabela

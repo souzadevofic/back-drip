@@ -5,6 +5,7 @@ import insertData from './scripts/insertData.js';
 import configDB from './config/db.js';
 import server from './server.js';
 
+
 async function main() {
     try {
         await createDatabase();
