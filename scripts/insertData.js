@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import Categories from '../models/Categories.js';
+import ImgProducts from '../models/ImgProducts.js'
 import bcrypt from 'bcrypt';
 
 async function insertData() {
@@ -20,7 +21,7 @@ async function insertData() {
         // INSERT INTO products ...
         const product = await Product.create({
             enabled: 0,
-            name: 'Produto Exemplo',
+            name: 'Tenis',
             slug: '/product-example',
             use_in_menu: 0,
             stock: 0,
@@ -36,6 +37,13 @@ async function insertData() {
             slug: '/categories-exemple',
             use_in_menu: 0,
         });
+
+        //INSERT INTO imgProducts
+        const imgProducts = await ImgProducts.create({
+            enabled: 0,
+            path: 'https://drive.google.com/file/d/1JDOQUqT6LhyuoRPxB4YPpyZr6AKKthU_/preview'
+        });
+
         console.log(`Nova categoria criada: ${categories.toJSON()}`);
 
 
