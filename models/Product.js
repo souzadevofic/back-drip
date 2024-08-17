@@ -1,6 +1,7 @@
 
 import { DataTypes } from "sequelize";
 import configDB from "../config/db.js";
+import ImgProduct from "./ImgProducts.js";
 
 const Product = configDB.define('Product', {
     enabled: {
@@ -38,5 +39,7 @@ const Product = configDB.define('Product', {
     tableName: 'products',  // Nome da tabela
     timestamps: true,       // Cria campos createdAt e updatedAt automaticamente
 });
+
+
 
 export default Product;
