@@ -1,5 +1,15 @@
-const { User } = require('../models');
-const { where } = require('sequelize');
+import User from '../models/User.js';
+
+// Create a new User
+const createUser = async (req, res) => {
+    try {
+        const { username, surname, email, password } = req.body;
+        const newUser = await User.create({ username, surname, email, password });
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 // GET All Users
 const getAllUsers = async ( req, res ) => {
@@ -61,6 +71,7 @@ const deleteUser = async ( req, res ) => {
 };
 
 module.exports = {
+    createUser,
     getAllUsers,
     getUserById,
     updateUser,

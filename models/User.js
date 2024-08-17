@@ -19,7 +19,7 @@ const User = configDB.define('User', {
         unique: true,       // Não pode repetir o e-mail
     },
     password: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(255),
         allowNull: false,
         set(value) {
             const saltRounds = 10;
