@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import Product from '../models/Product.js';
 import Categories from '../models/Categories.js';
 import ImgProduct from '../models/ImgProducts.js';
+import ProdCategory from '../models/ProdCategory.js'
 // import bcrypt from 'bcrypt';
 
 async function insertData() {
@@ -13,7 +14,7 @@ async function insertData() {
         const user = await User.create({
             username: 'Vanessa',
             surname: 'Souza',
-            email: 'maria1234@gmail.com',
+            email: 'maria12345@gmail.com',
             password: '12345' // Senha com hash gerado pelo bcrypt
         });
         console.log(`Novo usuário criado: ${user.toJSON()}`);
@@ -21,7 +22,7 @@ async function insertData() {
         // INSERT INTO products ...
         const product = await Product.create({
             enabled: 0,
-            name: 'Produto Exemplo3',
+            name: 'Produto Exemplo4',
             slug: '/product-example',
             use_in_menu: 0,
             stock: 0,
@@ -33,7 +34,7 @@ async function insertData() {
 
         // INSERT INTO categories ...
         const categories = await Categories.create({
-            name: 'Sapato3',
+            name: 'Sapato4',
             slug: '/categories-exemple',
             use_in_menu: 0,
         });
@@ -46,6 +47,13 @@ async function insertData() {
             path: 'https://drive.google.com/file/d/1JDOQUqT6LhyuoRPxB4YPpyZr6AKKthU_/preview',
         });
         console.log(`Nova categoria criada: ${imgproducts.toJSON()}`);
+
+        // INSERT INTO imgproducts ...
+        const prodcategory = await ProdCategory.create({
+            product_id: product.id,
+            category_id: categories.id,
+        });
+        console.log(`Nova categoria criada: ${prodcategory.toJSON()}`);
 
 
     } catch (error) {
