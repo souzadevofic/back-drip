@@ -4,6 +4,7 @@ import createTables from './scripts/createTables.js';
 import insertData from './scripts/insertData.js';
 import configDB from './config/db.js';
 import server from './server.js';
+import './association.js'
 
 
 async function main() {

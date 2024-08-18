@@ -9,6 +9,20 @@ const options = {
             version: '1.0.0',
             description: 'API for managing users',
         },
+        components: {
+            securitySchemes: {
+              BearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+              },
+            },
+          },
+          security: [
+            {
+              BearerAuth: [],
+            },
+          ],
         servers: [
             {
                 url: 'http://localhost:3000/api',
