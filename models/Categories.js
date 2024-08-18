@@ -11,7 +11,7 @@ const Categories = configDB.define('Categories', {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-     use_in_menu: {
+    use_in_menu: {
         type: DataTypes.BOOLEAN(0),
         allowNull: true,
     },
