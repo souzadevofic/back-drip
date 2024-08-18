@@ -1,15 +1,22 @@
 import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
+import { jwtSecret, jwtExpiry } from '../config/jwt.js';
+
 
 // Criar um novo usuário
 export const createUser = async (req, res) => {
     try {
         const { username, surname, email, password } = req.body;
         const newUser = await User.create({ username, surname, email, password });
-        res.status(201).json(newUser);
+
+        // Gerar o token JWT
+        const token = jwt.sign({ id: newUser.id }, jwtSecret, { expiresIn: jwtExpiry });
+
+        res.status(201).json({ user: newUser, token });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-};
+}
 
 // Buscar todos os usuários
 export const getAllUsers = async (req, res) => {

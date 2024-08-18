@@ -1,5 +1,6 @@
 import express from 'express';
 import { createUser, getAllUsers, getUserById, updateUser, deleteUser} from '../controllers/userController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -80,7 +81,7 @@ router.post('/users', createUser);
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/users', getAllUsers);
+router.get('/users', authenticateToken, getAllUsers); 
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get('/users', getAllUsers);
  *       404:
  *         description: User not found
  */
-router.get('/users/:id', getUserById);
+router.get('/users/:id', authenticateToken, getUserById);
 
 /**
  * @swagger
@@ -134,7 +135,7 @@ router.get('/users/:id', getUserById);
  *       400:
  *         description: Some input data is invalid
  */
-router.put('/users/:id', updateUser);
+router.put('/users/:id', authenticateToken, updateUser);
 
 /**
  * @swagger
@@ -155,7 +156,6 @@ router.put('/users/:id', updateUser);
  *       404:
  *         description: User not found
  */
-router.delete('/users/:id', deleteUser);
+router.delete('/users/:id', authenticateToken, deleteUser);
 
 export default router;
-
