@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js'
 import productRoutes from './routes/productRoutes.js'
@@ -8,6 +9,13 @@ const app = express();
 
 // Permite que o express interprete o corpo da requisição como JSON
 app.use(express.json());
+
+// Configuração do CORS
+app.use(cors({
+    origin: 'http://localhost:5173', // Adicione a URL do seu frontend aqui
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Rotas de usuário
 app.use('/api', userRoutes);

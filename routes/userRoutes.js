@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getAllUsers, getUserById, updateUser, deleteUser} from '../controllers/userController.js';
+import { createUser, authenticateUser, getAllUsers, getUserById, updateUser, deleteUser} from '../controllers/userController.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -47,7 +47,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /users:
+ * /register:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
@@ -60,10 +60,85 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: The user was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for the authenticated user
  *       400:
  *         description: Some input data is invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
  */
-router.post('/users', createUser);
+router.post('/register', createUser);
+
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Authenticate a user and return a JWT token
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       200:
+ *         description: Successfully authenticated user and returned JWT token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for the authenticated user
+ *       400:
+ *         description: Invalid input data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *       401:
+ *         description: Unauthorized, invalid credentials
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ */
+router.post('/login', authenticateUser);
+
 
 /**
  * @swagger
