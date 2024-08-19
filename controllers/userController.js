@@ -37,31 +37,13 @@ export const authenticateUser = async (req, res) => {
 
 // Criar um novo usuário
 export const createUser = async (req, res) => {
-    const { username, surname, email, password } = req.body;
-
-    if (!username || !surname || !email || !password) {
-        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
-    }
-
     try {
-        // Verificar a senha
-        const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Senha corresponde:', isMatch);
-
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Senha incorreta' });
-        }
-
-        // Criptografar a senha
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Criar o novo usuário
-        const newUser = await User.create({ username, surname, email, password: hashedPassword });
+        const { username, surname, email, password } = req.body;
+        const newUser = await User.create({ username, surname, email, password });
 
         // Gerar o token JWT
-        const token = jwt.sign({ id: newUser.id, email: newUser.email }, jwtSecret, { expiresIn: jwtExpiry });
+        const token = jwt.sign({ id: newUser.id }, jwtSecret, { expiresIn: jwtExpiry });
 
-        // Responder com o novo usuário e o token
         res.status(201).json({ user: newUser, token });
     } catch (error) {
         res.status(400).json({ error: error.message });
