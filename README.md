@@ -1,39 +1,93 @@
-# Testes Unitários em JavaScript com Jest
+# Projeto Backend
 
-Jest é um framework de testes unitários desenvolvido pelo Facebook, focado principalmente em aplicações JavaScript. Ele é usado para testar unidades menores de código, como funções, módulos, ou componentes isolados, garantindo que partes individuais do código funcionem como esperado.
+O projeto constitui em API RestFull em que podemos Criar, Ler, Atualizar e Deletar (CRUD). 
 
- - **Testes unitários**: Testar funções e componentes React de forma isolada.
+## As Tecnologias utilizadas
 
- - **Testes de integração**: Verificar se diferentes partes do código (como componentes React e chamadas para a API) funcionam bem juntas.
+- **Node.js**: fornece a possibilidade de executar JS em um servidor.
 
- - **Testes de API**: Combinado com bibliotecas como Supertest, é usado para testar endpoints da API RESTful do Node.js.
+- **Express.js**: cria rotas de api
+
+- **Dotenv**: cria configurações com mais facilidade e segurança.
+
+- **Nodemon**: configura o nosso ambiente de desenvolvimento.
+
+- **MySQL**: Armazenamento dos dados.
+
+- **Sequelize**: configura a interação com o mysql para a criação das estruturas de: Banco de Dados, Tabelas e Inserções de Valores.
+
+- **JWT**: Token gerado para fins de segurança das rotas das APIs.
+
+- **JEST**: Ambiente de testagem dos códigos criados no nosso projeto.
+
+- **Swagger**: Faz o design, ou seja, fazer a modelagem, a documentar e até gerar código para desenvolvimento de APIs.
+
+## Estrutura de diretório
+```
+back-drip/
+│   │ 
+│   ├── __teste__/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── scripts/
+│  
+├── .env
+├── .gitignore
+├──  app.js
+└──  association.js
+├──  jest.config.js
+├──  README.md
+└──  server.js
 
 
-### Configurando Jest no Backend Node.js
-
-O 'package.json' já tem o registro das dependências básicas para este projeto:
-
-```json
-"dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mysql2": "^3.11.0",
-    "sequelize": "^6.37.3"
-}
 ```
 
+### Configurando o Backend Node.js
 
-### #1. Para rodar o projeto, é preciso apenas baixar e instalar as dependências:
+Para iniciar o projeto é necessário configurar o package.json :
 
 ```
 npm i
 ```
-e as dependências dev:
+
+### 1. Para rodar o projeto, é preciso apenas baixar e instalar as dependências:
+
+1 - Abra o Terminal para dá os seguintes comandos:
+
+```
+npm i bcrypt dotenv express jsonwebtoken mysql2 sequelize swagger-jsdoc swagger-ui-express
+
+```
+2 - Confira no seu package.json se está descrito desta forma:
+```json
+ "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0",
+    "sequelize": "^6.37.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+```
+
+3 - Agora para ver se o projeto está funcionando dê este comando:
+
+```
+node app.js
+```
+
+### 2. Para rodar o JEST é necessário baixar as depêndencias descritas:
+
+1 - Dependências dev para rodar os testes:
 ```
 npm i --save-dev jest supertest
 ```
-
-
+2- Confira no package-json se está exatamente assim:
 ```json
 "devDependencies": {
     "jest": "^29.7.0",
@@ -46,175 +100,23 @@ npm i --save-dev jest supertest
  - **Supertest**: Para facilitar a simulação de requisições HTTP nos testes da API.
 
 
-### #2. Crie o arquivo 'jest.config.js' na raiz do projeto.
 
-![001.png](https://i.postimg.cc/26jBcr7n/001.png)
-
-Adicione o código:
-
-```js
-export default {
-    testEnvironment: 'node',
-    testMatch: ['**/__tests__/**/*.test.js'],
-    setupFilesAfterEnv: ['dotenv/config'],
-    transform: {},
-};
-```
-
-Isso configura o Jest para rodar em um ambiente Node.js e procurar por arquivos de teste com a extensão **.test.js** na pasta **\_\_tests\_\_**
-
-
-### #3. Crie a pasta '\_\_tests\_\_' na raiz do projeto.
-
-Dentro, crie o arquivo '**userRoutes.test.js**' e adicione o código:
-
-```js
-import request from 'supertest';
-import server from '../server.js';
-
-describe('GET /users', () => {
-    it('Deve retornar uma lista de usuários', async () => {
-        const response = await request(server).get('/users');
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toBeInstanceOf(Array);
-    });
-});
-
-console.log('\n__tests__/userRoutes.test.js\n');
-```
-
-
-### #4. Ainda dentro da pasta '\_\_tests\_\_', crie a pasta 'integration'.
-
-Dentro, crie o arquivo '**insertData.test.js**' e adicione o código:
-
-```js
-import configDB from "../../config/db.js";
-import createDatabse from "../../scripts/createDatabase.js";
-import createTables from "../../scripts/createTables.js";
-import insertData from "../../scripts/insertData.js";
-import User from "../../models/User.js";
-import Product from "../../models/Product.js";
-
-describe('Integração de DB', () => {
-    beforeAll(async () => {
-        await createDatabse();
-        await createTables();
-    });
-
-    afterAll(async () => {
-        await configDB.close();
-    });
-
-    it('Deve inserir dados iniciais no banco de dados', async () => {
-        await insertData();
-
-        const users = await User.findAll();
-        const products = await Product.findAll();
-
-        expect(users.length).toBe(1);
-        expect(products.length).toBe(1);
-
-        expect(users[0].username).toBe('Marnei');
-        expect(products[0].name).toBe('Produto Exemplo');
-    });
-});
-```
-
-
-### #5. Ainda dentro da pasta '\_\_tests\_\_', crie a pasta 'models'.
-
-Dentro da pasta '**models**', crie dois arquivos:
- - '**User.test.js**' e adicione o código:
-
-```js
-import User from '../../models/User.js';
-
-describe('User Model', () => {
-    it('Deve criar uma instância de usuário com atributos válidos', async () => {
-        const user = User.build(
-            {
-                username: 'Marnei',
-                email: 'marneicardoso.prof@gmail.com',
-            },
-        );
-
-        expect(user.username).toBe('Marnei');
-        expect(user.email).toBe('marneicardoso.prof@gmail.com');
-    });
-
-    it('Deve falhar se os campos obrigatórios estiverem faltando', async () => {
-        try {
-            await User.build({}).validate();
-
-        } catch (error) {
-            expect(error.name).toBe('SequelizeValidationError');
-        }
-    });
-});
-```
-
- - '**Product.test.js**' e adicione o código:
-
- ```js
-import Product from '../../models/Product.js';
-
-describe('Product Model', () => {
-    it('Deve criar uma instância de produto com atributos válidos', async () => {
-        // const product = await Product.build(
-        const product = Product.build(
-            {
-                name: 'Produto Exemplo',
-                price: 29.99,
-                description: 'Um excelente produto de exemplo',
-            }
-        );
-
-        expect(product.name).toBe('Produto Exemplo');
-        expect(product.price).toBe(29.99);
-        expect(product.description).toBe('Um excelente produto de exemplo');
-    });
-
-    it('Deve falhar se os campos obrigatórios estiverem faltando', async () => {
-        try {
-            await Product.build({}).validate();
-
-        } catch (error) {
-            expect(error.name).toBe('SequelizeValidationError');
-        }
-    });
-});
- ```
-
-
-### #6. Abra o 'package.json' e adicione em 'scripts', a linha:
+3 - Abra o 'package.json' e adicione em 'scripts', a linha:
 
 ```json
-"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+ "scripts": {
+    "start": "node app.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+},
 ```
 
-![002.png](https://i.postimg.cc/7h8nZfv0/002.png)
-
-
-### #7. Abra o Terminal e rode o projeto no modo teste:
+4 - Abra o Terminal e rode o projeto no modo teste:
 
 ```
 npm test
 ```
 
-Veja os resultados no console.
 
+## Objetivo do Projeto Backend
 
-## Objetivo com Jest
-
- - **Testes Unitários**: Verificar a lógica dos modelos (***User***, ***Product***, etc).
-
- - **Testes de Integração**: Verificar se as operações de banco de dados, como criação de usuários e produtos, estão funcionando corretamente.
-
- - **Mocking**: Evitar interações reais com o banco de dados durante os testes unitários.
-
-
-### Segurança das informações
-
-Lembre-se que as configurações do arquivo .env são dados sensíveis e devem ser alterados conforme as necessidades de cada projeto. Os dados deste projeto são genéricos, usados de forma didática como exemplo. Os dados finais do .env não devem ser enviados para o repositório, para que não fiquem expostos e qualquer pessoa que acessar o repositório possa acessar a base de dados.
- 
+O objetivo deste projeto é aplicar os conhecimentos adquiridos no curso de Desenvolvedor Web Full Stack, integrando ferramentas e tecnologias do Backend para consolidar o aprendizado e formar desenvolvedores completos.
