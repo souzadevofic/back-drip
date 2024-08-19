@@ -24,7 +24,7 @@ describe('Integração de DB', () => {
         expect(users.length).toBe(1);
         expect(products.length).toBe(1);
 
-        expect(users[0].username).toBe('Marnei');
-        expect(products[0].name).toBe('Produto Exemplo');
+        expect(users[0].username).toBe('Vanessa');
+        expect(products[0].name).toBe('Produto Exemplo4');
     });
 });
