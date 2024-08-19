@@ -1,17 +1,67 @@
 import User from '../models/User.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { jwtSecret, jwtExpiry } from '../config/jwt.js';
+
+// Função para autenticar um usuário
+export const authenticateUser = async (req, res) => {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+        }
+
+        try {
+            // Verificar se o usuário existe
+            const user = await User.findOne({ where: { email } });
+            if (!user) {
+                return res.status(401).json({ message: 'Usuário não encontrado' });
+            }
+
+            // Verificar a senha
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ message: 'Senha incorreta' });
+            }
+
+            // Gerar o token JWT
+            const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: jwtExpiry });
+
+            // Responder com o token JWT
+            res.status(200).json({ token });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+};
 
 
 // Criar um novo usuário
 export const createUser = async (req, res) => {
+    const { username, surname, email, password } = req.body;
+
+    if (!username || !surname || !email || !password) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+    }
+
     try {
-        const { username, surname, email, password } = req.body;
-        const newUser = await User.create({ username, surname, email, password });
+        // Verificar a senha
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log('Senha corresponde:', isMatch);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Senha incorreta' });
+        }
+
+        // Criptografar a senha
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Criar o novo usuário
+        const newUser = await User.create({ username, surname, email, password: hashedPassword });
 
         // Gerar o token JWT
-        const token = jwt.sign({ id: newUser.id }, jwtSecret, { expiresIn: jwtExpiry });
+        const token = jwt.sign({ id: newUser.id, email: newUser.email }, jwtSecret, { expiresIn: jwtExpiry });
 
+        // Responder com o novo usuário e o token
         res.status(201).json({ user: newUser, token });
     } catch (error) {
         res.status(400).json({ error: error.message });
