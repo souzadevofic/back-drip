@@ -120,3 +120,18 @@ npm test
 ## Objetivo do Projeto Backend
 
 O objetivo deste projeto é aplicar os conhecimentos adquiridos no curso de Desenvolvedor Web Full Stack, integrando ferramentas e tecnologias do Backend para consolidar o aprendizado e formar desenvolvedores completos.
+
+
+
+## Membros do Projeto
+
+|                                               Profile                                                |       Nome Completo        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :--------------------------------------------------------------------------------------------------: | :------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|     [<img src="https://avatars.githubusercontent.com/u/146147231?v=4" height="90px">](https://github.com/souzadevofic)     |   Alisson Silva de Souza       |                                                                                                                                                                                                                                  
+| [<img src="https://avatars.githubusercontent.com/u/88554119?v=4" height="90px">](https://github.com/vanessaadev) |   Vanessa de Araujo do Nascimento   |
+|   [<img src="https://avatars.githubusercontent.com/u/172999556?v=4" height="90px">](https://github.com/DevRDone)   | Ronald da Costa Oliveira |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+
+
+                                                      
+
+
